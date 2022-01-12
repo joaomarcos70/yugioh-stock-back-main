@@ -23,3 +23,19 @@ exports.create = async (newUser) => {
         console.log(error);
     }
 }
+
+exports.getAll = async () => {
+    try {
+        return await UserRepository.getAll()
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.findUserByEmail = async (emailUser) => {
+    try {
+        return await UserRepository.findUserByEmail(emailUser)
+    } catch (error) {
+        console.log(error);
+    }
+}

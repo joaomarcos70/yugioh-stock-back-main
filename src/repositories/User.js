@@ -14,3 +14,9 @@ exports.findUserByEmail = async (email) => {
   return await User.findOne({ email: email })
 }
 
+exports.getAll = async () => {
+  return await User.find().sort({
+    'email': 1
+  })
+}
+
