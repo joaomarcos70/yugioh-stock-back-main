@@ -13,3 +13,4 @@ exports.createUser = async (newUser) => {
 exports.findUserByEmail = async (email) => {
   return await User.findOne({ email: email })
 }
+
