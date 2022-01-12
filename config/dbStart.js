@@ -1,9 +1,14 @@
-const mongoose = require('mongoose'),
-  config = require('./config');
-
+const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-const mongoConnection = mongoose.connect(config.mongodb.uri, config.mongodb.options);
+const configDB = {
+    uri: 'mongodb://localhost:27017/yugiohStock',
+    options: {
+    }
+}
+
+const mongoConnection = mongoose.connect(configDB.uri, configDB.options);
+
 mongoConnection
   .then(
     db => console.log('\x1b[36m%s\x1b[0m', 'MongoDB successfully connected'),
