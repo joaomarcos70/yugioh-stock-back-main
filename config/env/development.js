@@ -4,8 +4,8 @@ module.exports = {
     mongodb: {
         uri: 'mongodb://localhost:27017/yugiohStock',
         options: {
-            user: 'root',
-            pass: 'root',
+            user: 'admin',
+            pass: 'admin',
             useMongoClient: true
         }
     }
