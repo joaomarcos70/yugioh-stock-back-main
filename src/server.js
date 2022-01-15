@@ -13,15 +13,15 @@ corsOptions = {
 
 app.use(cors(corsOptions))
 
-const login = require('./controllers/Login')
+const login = require('./controllers/login.controller')
 app.use('/auth', login)
 
-const users = require('./controllers/User')
+const users = require('./controllers/user.controller')
 app.use('/users', users )
 
 
 app.listen(3000, function () {
-    console.log(`Example app listening on port ${PORT}`);
+    console.log(`app listening on port ${PORT}`);
 });
 
 module.exports = app

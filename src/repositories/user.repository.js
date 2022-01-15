@@ -1,4 +1,4 @@
-const User = require('../models/Users').User
+const User = require('../models/Users.model').User
 
 exports.createUser = async (newUser) => {
   try {
@@ -8,6 +8,18 @@ exports.createUser = async (newUser) => {
   } catch (error) {
     console.log(error);
   }
+}
+
+exports.updateUser = async (id, body) => {
+  return await User.findOneAndUpdate({
+    _id: id
+  }, body)
+}
+
+exports.deleteUser = async (id) => {
+  return await User.findOneAndRemove({
+    _id:id
+  })
 }
 
 exports.findUserByEmail = async (email) => {
