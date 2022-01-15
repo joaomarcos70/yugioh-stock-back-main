@@ -7,7 +7,7 @@ app.use(express.json())
 require('../config/dbStart')
 
 corsOptions = {
-    origin: 'http://localhost:8080',
+    origin: 'http://localhost:4200',
     optionsSuccessStatus: 200
 }
 
