@@ -1,5 +1,6 @@
-const UserRepository = require('../repositories/User')
-const { isEmpty } = require('lodash')
+const UserRepository = require('../repositories/user.repository')
+const { isEmpty, isUndefined } = require('lodash')
+const { json } = require('express/lib/response')
 
 exports.create = async (newUser) => {
     try {
@@ -21,6 +22,36 @@ exports.create = async (newUser) => {
         await UserRepository.createUser(newUser)
     } catch (error) {
         console.log(error);
+    }
+}
+
+exports.update = async (id, body) => {
+    try {
+        if (isEmpty(body) || isUndefined(id)) {
+            return Promise.reject("verifique se preencheu os os campos obrigatórios!").catch(err => {
+                throw new Error(err)
+            })
+        }
+
+        await UserRepository.updateUser(id, body)
+
+
+    } catch (error) {
+        return json({ message: error })
+    }
+}
+
+exports.delete = async (id) => {
+    try {
+        if (isUndefined(id)) {
+            return Promise.reject("verifique se o id do usuario é valido").catch(err => {
+                throw new Error(err)
+        })
+    }
+    await UserRepository.deleteUser(id)
+
+    } catch (error) {
+        return json({ message: error })
     }
 }
 

@@ -1,4 +1,4 @@
-const UserRepository = require('../repositories/User');
+const UserRepository = require('../repositories/user.repository');
 
 exports.allowedLogin = async (userBody) => {
     try {

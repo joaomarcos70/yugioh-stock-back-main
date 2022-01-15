@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router();
-const LoginService = require('../services/Login')
+const LoginService = require('../services/login.service')
 
 router.post('/login', async function (req, res) {
     try {
@@ -10,10 +10,8 @@ router.post('/login', async function (req, res) {
 
         if (canAccess) {
             res.status(200).json('Acesso permitido!')
-            //res.redirect(`http://localhost:8080/home}`)
         } else {
             res.status(400).json('Usuário ou senha incorretos!')
-            //res.redirect(`http://localhost:8080/login}`)
         }
 
     } catch (error) {
