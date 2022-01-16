@@ -2,14 +2,21 @@ const mongoose = require('mongoose');
 
 const User = new mongoose.Schema({
     name: { type: String, required: true },
-    nickName: { type: String },
+    nickName: { type: String, required: false },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    collection: [{
-        id: { type: String, required: false }
+    cardCollection: [{
+        cardId: { type: String, required: false },
+        quantity: { type: Number, required: false },
+        rarity: { type: String, required: false },
+        idiom: { type: String, required: false },
+        cardState: { type: String, required: false }
     }],
     wants: [{
-        id: { type: String, required: false }
+        cardId: { type: String, required: false },
+        quantity: { type: Number, required: false },
+        rarity: { type: String, required: false },
+        idiom: { type: String, required: false }
     }],
     typeRole: { type: String, default: 'user' }
 })

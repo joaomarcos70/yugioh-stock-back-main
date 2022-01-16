@@ -15,7 +15,7 @@ router.post('/create', async function (req, res) {
     }
 });
 
-router.put('/update', async function (req, res) {
+router.put('/update/:id', async function (req, res) {
     try {
         const id = req.params.id;
         const body = req.body;
@@ -27,7 +27,7 @@ router.put('/update', async function (req, res) {
     }
 })
 
-router.get('/get-all', async function (req, res) {
+router.get('/getAll', async function (req, res) {
     try {
         const users = await UserService.getAll()
         res.status(200).json(users)
@@ -47,11 +47,23 @@ router.get('/getUserByEmail', async function (req, res) {
     }
 })
 
-router.delete('/delete', async function (req, res) {
+router.delete('/delete/:id', async function (req, res) {
     try {
         const id = req.params.id
         await UserService.delete(id)
         res.status(204).json({ message: 'Usuário deletado com sucesso!' })
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
+})
+
+router.post('/registerCollection/:id', async function (req, res) {
+    try {
+        const id = req.params.id
+        const infoCard = req.body
+
+        await UserService.registerCardOnCollection(id, infoCard)
+        res.status(204).json({ message: 'Carta adicionada a sua coleção ;)' })
     } catch (error) {
         res.status(500).json({ message: error })
     }
