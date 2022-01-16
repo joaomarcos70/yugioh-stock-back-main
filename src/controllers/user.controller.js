@@ -69,4 +69,16 @@ router.post('/registerCollection/:id', async function (req, res) {
     }
 })
 
+router.post('/registerWants/:id', async function (req, res) {
+    try {
+        const id = req.params.id
+        const infoCard = req.body
+
+        await UserService.registerCardOnWants(id, infoCard)
+        res.status(204).json({ message: 'Carta adicionada a sua Wants ;)' })
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
+})
+
 module.exports = router
