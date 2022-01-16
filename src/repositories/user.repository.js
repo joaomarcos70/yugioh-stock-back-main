@@ -18,7 +18,7 @@ exports.updateUser = async (id, body) => {
 
 exports.deleteUser = async (id) => {
   return await User.findOneAndRemove({
-    _id:id
+    _id: id
   })
 }
 
@@ -30,5 +30,33 @@ exports.getAll = async () => {
   return await User.find().sort({
     'email': 1
   })
+}
+
+exports.updateCardCollection = async (id, card) => {
+  const user = await User.findOne({ _id: id })
+  if (user) {
+    for (let c of user.cardCollection) {
+      if (c.cardId == card.cardId) {
+        c.quantity++
+        return user.save()
+      }
+    }
+    user.cardCollection.push(card)
+    return user.save()
+  }
+}
+
+exports.updateCardWants = async (id, card) => {
+  const user = await User.findOne({ _id: id })
+  if (user) {
+    for (let c of user.wants) {
+      if (c.cardId == card.cardId) {
+        c.quantity++
+        return user.save()
+      }
+    }
+    user.wants.push(card)
+    return user.save()
+  }
 }
 

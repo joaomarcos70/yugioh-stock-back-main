@@ -70,3 +70,19 @@ exports.findUserByEmail = async (emailUser) => {
         console.log(error);
     }
 }
+
+exports.registerCardOnCollection = async (id, cardInfo) =>{
+    try {
+        return await UserRepository.updateCardCollection(id, cardInfo)
+    } catch (error) {
+        return json({ message: error })
+    }
+}
+
+exports.registerCardOnWants = async (id, cardInfo) =>{
+    try {
+        return await UserRepository.updateCardWants(id, cardInfo)
+    } catch (error) {
+        return json({ message: error })
+    }
+}
