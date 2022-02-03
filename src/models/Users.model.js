@@ -10,7 +10,8 @@ const User = new mongoose.Schema({
         quantity: { type: Number, required: false },
         rarity: { type: String, required: false },
         idiom: { type: String, required: false },
-        cardState: { type: String, required: false }
+        cardState: { type: String, required: false },
+        price: { type: Number, required: false }
     }],
     wants: [{
         cardId: { type: String, required: false },
