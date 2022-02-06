@@ -31,7 +31,7 @@ router.get("/getAllRarities", async function (res) {
 
 router.get("/getAllTypes", async function (res) {
 	try {
-		const types = await filterCardService.getAllTypeCards;
+		const types = await filterCardService.getAllTypeCards();
 		res.status(200).json(types);
 	} catch (error) {
 		res.status(500).json({ message: error });
