@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const filterCardService = require("../services/filterCard.service");
 
-router.get("/getAll", async function (res) {
+router.get("/getAllAttributes", async function (res) {
 	try {
 		const attributes = await filterCardService.getAllAttributeCards();
 		res.status(200).json(attributes);
@@ -11,7 +11,7 @@ router.get("/getAll", async function (res) {
 	}
 });
 
-router.get("/getAll", async function (res) {
+router.get("/getAllRaces", async function (res) {
 	try {
 		const races = await filterCardService.getAllRaceCards();
 		res.status(200).json(races);
@@ -20,7 +20,7 @@ router.get("/getAll", async function (res) {
 	}
 });
 
-router.get("/getAll", async function (res) {
+router.get("/getAllRarities", async function (res) {
 	try {
 		const raryties = await filterCardService.getAllRarityCards();
 		res.status(200).json(raryties);
@@ -29,7 +29,7 @@ router.get("/getAll", async function (res) {
 	}
 });
 
-router.get("/getAll", async function (res) {
+router.get("/getAllTypes", async function (res) {
 	try {
 		const types = await filterCardService.getAllTypeCards;
 		res.status(200).json(types);
