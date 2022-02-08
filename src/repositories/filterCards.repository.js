@@ -11,13 +11,13 @@ exports.getAllAttributes = async () => {
 
 exports.getAllRaces = async (flag) => {
 	try {
-		if (flag && flag == "spell") {
+		if (flag && flag == "Spell Card") {
 			return await Race.find({
 				isSpell: true,
 			}).sort({
 				name: 1,
 			});
-		} else if (flag && flag == "trap") {
+		} else if (flag && flag == "Trap Card") {
 			return await Race.find({
 				isTrap: true,
 			}).sort({
