@@ -7,9 +7,10 @@ exports.getAllAttributeCards = async () => {
 		console.log(error);
 	}
 };
-exports.getAllRaceCards = async () => {
+exports.getAllRaceCards = async (flag) => {
+	console.log(flag);
 	try {
-		return await filterCardsRepository.getAllRaces();
+		return await filterCardsRepository.getAllRaces(flag);
 	} catch (error) {
 		console.log(error);
 	}
@@ -21,9 +22,9 @@ exports.getAllRarityCards = async () => {
 		console.log(error);
 	}
 };
-exports.getAllTypeCards = async () => {
+exports.getAllTypeCards = async (isExtra) => {
 	try {
-		return await filterCardsRepository.getAllTypes;
+		return await filterCardsRepository.getAllTypes(isExtra);
 	} catch (error) {
 		console.log(error);
 	}

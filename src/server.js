@@ -19,6 +19,8 @@ app.use('/auth', login)
 const users = require('./controllers/user.controller')
 app.use('/users', users )
 
+const filterCards = require('./controllers/filterCards.controller')
+app.use('/api', filterCards )
 
 app.listen(3000, function () {
     console.log(`app listening on port ${PORT}`);
