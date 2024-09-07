@@ -4,6 +4,7 @@ const UserService = require("../services/user.service");
 const { decodeToken } = require("../services/token.service");
 const { removeBearer } = require("../helpers/remove-bearer");
 const { authenticateToken } = require("../middleware/check-is-logged.middleware");
+const e = require("express");
 
 router.get("/me", authenticateToken, async function (req, res) {
 	try {
@@ -86,10 +87,31 @@ router.get("/getUserByEmail", authenticateToken, async function (req, res) {
 		if (!tokenDecoded) {
 			return res.status(401).json({ message: "Token inválido" });
 		}
-		const emailUser = req.header.email;
+		const emailUser = req.headers["email"];
 
 		const user = await UserService.findUserByEmail(emailUser);
 		res.status(200).json(user);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+});
+
+router.get("/getDataById", authenticateToken, async function (req, res) {
+	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
+		const userId = req.headers["id"];
+
+		const user = await UserService.findUserById(userId);
+		res.status(200).json({
+			data: {
+				cardCollection: user.cardCollection,
+				wants: user.wants,
+			},
+		});
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}
