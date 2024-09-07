@@ -3,13 +3,20 @@ var router = express.Router();
 const UserService = require("../services/user.service");
 const { decodeToken } = require("../services/token.service");
 const { removeBearer } = require("../helpers/remove-bearer");
+const { authenticateToken } = require("../middleware/check-is-logged.middleware");
 
-router.get("/me", async function (req, res) {
+router.get("/me", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
+
 		let token = req.headers.authorization;
 
 		if (!token) {
-			res.status(401).json({ message: "Token não informado" });
+			return res.status(401).json({ message: "Token não informado" });
 		}
 
 		token = removeBearer(token);
@@ -17,14 +24,22 @@ router.get("/me", async function (req, res) {
 		const userDecoded = decodeToken(token);
 
 		if (!userDecoded) {
-			res.status(401).json({ message: "Token inválido" });
+			return res.status(401).json({ message: "Token inválido" });
 		}
 		return res.status(200).json(userDecoded);
-	} catch (error) {}
+	} catch (error) {
+		return res.status(500).json({ message: "Erro no servidor", error: error.message });
+	}
 });
 
-router.post("/create", async function (req, res) {
+router.post("/create", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
+
 		let newUser = req.body;
 		const user = await UserService.create(newUser);
 		res.status(201).json({ message: "Usuario criado com sucesso", user });
@@ -33,8 +48,13 @@ router.post("/create", async function (req, res) {
 	}
 });
 
-router.put("/update/:id", async function (req, res) {
+router.put("/update/:id", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const id = req.params.id;
 		const body = req.body;
 
@@ -45,8 +65,13 @@ router.put("/update/:id", async function (req, res) {
 	}
 });
 
-router.get("/getAll", async function (req, res) {
+router.get("/getAll", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const users = await UserService.getAll();
 		res.status(200).json(users);
 	} catch (error) {
@@ -54,8 +79,13 @@ router.get("/getAll", async function (req, res) {
 	}
 });
 
-router.get("/getUserByEmail", async function (req, res) {
+router.get("/getUserByEmail", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const emailUser = req.header.email;
 
 		const user = await UserService.findUserByEmail(emailUser);
@@ -65,8 +95,13 @@ router.get("/getUserByEmail", async function (req, res) {
 	}
 });
 
-router.delete("/delete/:id", async function (req, res) {
+router.delete("/delete/:id", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const id = req.params.id;
 		await UserService.delete(id);
 		res.status(204).json({ message: "Usuário deletado com sucesso!" });
@@ -75,8 +110,13 @@ router.delete("/delete/:id", async function (req, res) {
 	}
 });
 
-router.post("/registerCollection/:id", async function (req, res) {
+router.post("/registerCollection/:id", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const id = req.params.id;
 		const infoCard = req.body;
 
@@ -87,8 +127,13 @@ router.post("/registerCollection/:id", async function (req, res) {
 	}
 });
 
-router.post("/registerWants/:id", async function (req, res) {
+router.post("/registerWants/:id", authenticateToken, async function (req, res) {
 	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
 		const id = req.params.id;
 		const infoCard = req.body;
 
