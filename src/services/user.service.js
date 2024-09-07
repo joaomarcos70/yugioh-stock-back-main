@@ -75,9 +75,10 @@ exports.findUserById = async (userId) => {
 	}
 };
 
-exports.registerCardOnCollection = async (id, cardInfo) => {
+exports.registerCardOnCollection = async (userId, cardInfo) => {
 	try {
-		return await UserRepository.updateCardCollection(id, cardInfo);
+		console.log(userId, cardInfo);
+		return await UserRepository.updateCardCollection(userId, cardInfo);
 	} catch (error) {
 		return json({ message: error });
 	}

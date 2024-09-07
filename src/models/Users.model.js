@@ -12,7 +12,7 @@ const User = new mongoose.Schema({
 			rarity: { type: String, required: false },
 			idiom: { type: String, required: false },
 			cardState: { type: String, required: false },
-			price: { type: Number, required: false },
+			price: { type: String, required: false },
 		},
 	],
 	wants: [

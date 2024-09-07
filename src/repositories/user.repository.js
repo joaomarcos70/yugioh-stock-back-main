@@ -38,18 +38,30 @@ exports.getAll = async () => {
 	});
 };
 
-exports.updateCardCollection = async (id, card) => {
-	const user = await User.findOne({ _id: id });
-	if (user) {
-		for (let c of user.cardCollection) {
-			if (c.cardId == card.cardId) {
-				c.quantity++;
-				return user.save();
-			}
-		}
-		user.cardCollection.push(card);
+exports.updateCardCollection = async (userId, card) => {
+	const user = await User.findOne({ _id: userId });
+
+	if (!user) {
+		return { message: "Usuário não encontrado", status: 404 };
+	}
+
+	const hasCard = user.cardCollection.find((c) => c.cardId === card.cardId);
+
+	if (hasCard) {
+		hasCard.quantity++;
 		return user.save();
 	}
+
+	user.cardCollection.push({
+		cardId: card.cardId,
+		quantity: card.cardCount,
+		rarity: card.cardRarity,
+		idiom: card.cardLanguage,
+		cardState: card.cardState,
+		price: card.cardPrice,
+	});
+
+	return user.save();
 };
 
 exports.updateCardWants = async (id, card) => {

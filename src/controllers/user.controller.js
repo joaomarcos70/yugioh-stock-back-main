@@ -69,7 +69,6 @@ router.put("/update/:id", authenticateToken, async function (req, res) {
 router.get("/getAll", authenticateToken, async function (req, res) {
 	try {
 		const tokenDecoded = req.tokenDecoded;
-
 		if (!tokenDecoded) {
 			return res.status(401).json({ message: "Token inválido" });
 		}
@@ -99,7 +98,7 @@ router.get("/getUserByEmail", authenticateToken, async function (req, res) {
 router.get("/getDataById", authenticateToken, async function (req, res) {
 	try {
 		const tokenDecoded = req.tokenDecoded;
-
+		console.log(tokenDecoded);
 		if (!tokenDecoded) {
 			return res.status(401).json({ message: "Token inválido" });
 		}
@@ -132,17 +131,17 @@ router.delete("/delete/:id", authenticateToken, async function (req, res) {
 	}
 });
 
-router.post("/registerCollection/:id", authenticateToken, async function (req, res) {
+router.post("/registerCollection", authenticateToken, async function (req, res) {
 	try {
 		const tokenDecoded = req.tokenDecoded;
 
 		if (!tokenDecoded) {
 			return res.status(401).json({ message: "Token inválido" });
 		}
-		const id = req.params.id;
+		const userId = req.headers["id"];
 		const infoCard = req.body;
 
-		await UserService.registerCardOnCollection(id, infoCard);
+		await UserService.registerCardOnCollection(userId, infoCard);
 		res.status(204).json({ message: "Carta adicionada a sua coleção ;)" });
 	} catch (error) {
 		res.status(500).json({ message: error });
