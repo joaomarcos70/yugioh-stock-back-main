@@ -59,6 +59,8 @@ exports.updateCardCollection = async (userId, card) => {
 		idiom: card.cardLanguage,
 		cardState: card.cardState,
 		price: card.cardPrice,
+		cardType: card.cardType,
+		cardName: card.cardName,
 	});
 
 	return user.save();
@@ -76,4 +78,23 @@ exports.updateCardWants = async (id, card) => {
 		user.wants.push(card);
 		return user.save();
 	}
+};
+
+exports.getCardCollection = async (userId) => {
+	const user = await User.findOne({ _id: userId }).lean();
+
+	if (!user) {
+		return { message: "Usuário não encontrado", status: 404 };
+	}
+
+	return { data: user.cardCollection };
+};
+exports.getCardWants = async (userId) => {
+	const user = await User.findOne({ _id: userId }).lean();
+
+	if (!user) {
+		return { message: "Usuário não encontrado", status: 404 };
+	}
+
+	return { data: user.wants };
 };

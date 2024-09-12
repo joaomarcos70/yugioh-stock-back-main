@@ -5,6 +5,8 @@ const { decodeToken } = require("../services/token.service");
 const { removeBearer } = require("../helpers/remove-bearer");
 const { authenticateToken } = require("../middleware/check-is-logged.middleware");
 const e = require("express");
+const path = require("path");
+const { directorySet } = require("../helpers/directory-set");
 
 router.get("/me", authenticateToken, async function (req, res) {
 	try {
@@ -131,7 +133,7 @@ router.delete("/delete/:id", authenticateToken, async function (req, res) {
 	}
 });
 
-router.post("/registerCollection", authenticateToken, async function (req, res) {
+router.post("/register-collection", authenticateToken, async function (req, res) {
 	try {
 		const tokenDecoded = req.tokenDecoded;
 
@@ -148,20 +150,75 @@ router.post("/registerCollection", authenticateToken, async function (req, res) 
 	}
 });
 
-router.post("/registerWants/:id", authenticateToken, async function (req, res) {
+router.post("/register-wants", authenticateToken, async function (req, res) {
 	try {
 		const tokenDecoded = req.tokenDecoded;
 
 		if (!tokenDecoded) {
 			return res.status(401).json({ message: "Token inválido" });
 		}
-		const id = req.params.id;
+		const id = req.headers["id"];
 		const infoCard = req.body;
 
 		await UserService.registerCardOnWants(id, infoCard);
 		res.status(204).json({ message: "Carta adicionada a sua Wants ;)" });
 	} catch (error) {
 		res.status(500).json({ message: error });
+	}
+});
+
+router.get("/collection", authenticateToken, async function (req, res) {
+	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
+		const userId = req.headers["id"];
+
+		const collection = await UserService.getCardCollection(userId);
+
+		if (!collection.data) {
+			return res.status(404).json({ message: "Coleção não encontrada" });
+		}
+
+		console.log("chega aqui");
+		collectionWithImages = collection.data.map((card) => {
+			const directory = directorySet(card.cardType);
+			return {
+				...card,
+				cardImage: `${req.protocol}://${req.get("host")}/api/card-images/${directory}/${
+					card.cardId
+				}.jpg`,
+			};
+		});
+
+		console.log(collectionWithImages);
+
+		res.status(200).json({ data: collectionWithImages });
+	} catch (error) {
+		return res.status(500).json({ message: "Erro no servidor", error: error.message });
+	}
+});
+
+router.get("/wants", authenticateToken, async function (req, res) {
+	try {
+		const tokenDecoded = req.tokenDecoded;
+
+		if (!tokenDecoded) {
+			return res.status(401).json({ message: "Token inválido" });
+		}
+		const userId = req.headers["id"];
+
+		const wants = await UserService.getCardWants(userId);
+
+		if (!wants.data) {
+			return res.status(404).json({ message: "Wants não encontradas" });
+		}
+
+		res.status(200).json({ data: wants.data });
+	} catch (error) {
+		return res.status(500).json({ message: "Erro no servidor", error: error.message });
 	}
 });
 

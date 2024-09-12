@@ -67,6 +67,7 @@ exports.findUserByEmail = async (emailUser) => {
 		console.log(error);
 	}
 };
+
 exports.findUserById = async (userId) => {
 	try {
 		return await UserRepository.findUserById(userId);
@@ -77,7 +78,6 @@ exports.findUserById = async (userId) => {
 
 exports.registerCardOnCollection = async (userId, cardInfo) => {
 	try {
-		console.log(userId, cardInfo);
 		return await UserRepository.updateCardCollection(userId, cardInfo);
 	} catch (error) {
 		return json({ message: error });
@@ -87,6 +87,21 @@ exports.registerCardOnCollection = async (userId, cardInfo) => {
 exports.registerCardOnWants = async (id, cardInfo) => {
 	try {
 		return await UserRepository.updateCardWants(id, cardInfo);
+	} catch (error) {
+		return json({ message: error });
+	}
+};
+
+exports.getCardCollection = async (userId) => {
+	try {
+		return await UserRepository.getCardCollection(userId);
+	} catch (error) {
+		return json({ message: error });
+	}
+};
+exports.getCardWants = async (userId) => {
+	try {
+		return await UserRepository.getCardWants(userId);
 	} catch (error) {
 		return json({ message: error });
 	}
