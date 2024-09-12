@@ -19,14 +19,18 @@
   },
   "homepage": "https://github.com/joaomarcos70/yugioh-stock-back#readme",
   "dependencies": {
+    "axios": "^1.7.7",
     "bluebird": "^3.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.17.2",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^5.13.14",
-    "nodemon": "^2.0.15"
+    "node-cron": "^3.0.3",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "webpack": "^5.93.0",

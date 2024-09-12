@@ -1,4 +1,5 @@
 const filterCardsRepository = require("../repositories/filterCards.repository");
+const axios = require("axios");
 
 exports.getAllAttributeCards = async () => {
 	try {
